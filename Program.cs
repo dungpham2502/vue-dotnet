@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen() ;
-builder.Services.AddSingleton<ProductService>();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 // Add EF Core
 builder.Services.AddDbContext<ApplicationDbContext>(options =>

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using dotnet_backend.Models;
 using dotnet_backend.Services;
+using dotnet_backend.DTOs;
 
 namespace dotnet_backend.Controllers
 {
@@ -8,24 +9,25 @@ namespace dotnet_backend.Controllers
     [Route("api/[controller]")]
     public class ProductController : ControllerBase
     {
-        private readonly ProductService _productService;
+        private readonly IProductService _productService;
 
-        public ProductController(ProductService productService)
+        public ProductController(IProductService productService)
         {
             _productService = productService;
         }
 
         [HttpGet]
-        public IActionResult GetProducts()
+        public async Task<IActionResult> GetProducts()
         {
-            return Ok(_productService.GetProducts());
+            var products = await _productService.GetProducts();
+            return Ok(products);
         }
 
         [HttpPost]
-        public IActionResult AddProduct([FromBody] Product product)
+        public async Task<IActionResult> AddProduct([FromBody] ProductDto productDto)
         {
-            _productService.Add(product);
-            return Ok(_productService.GetProducts());
+            var product = await _productService.AddProduct(productDto.Name);
+            return CreatedAtAction(nameof(GetProducts), new { id = product.Id }, product);
         }
     }
 }

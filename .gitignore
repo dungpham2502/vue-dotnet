@@ -1,5 +1,34 @@
+# .NET Core
 bin/
 obj/
-/packages/
-riderModule.iml
-/_ReSharper.Caches/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+*.log
+
+# Visual Studio Code
+.vscode/
+
+# Database files
+*.db
+*.sqlite
+
+# Entity Framework Migrations files (optional to ignore snapshots)
+# Migrations/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Rider IDE
+.idea/
+
+# Dotnet Secrets
+secrets.json
