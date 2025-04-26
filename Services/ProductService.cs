@@ -1,15 +1,31 @@
 using dotnet_backend.Models;
+using dotnet_backend.Data;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace dotnet_backend.Services
 {
-    public class ProductService
+    public class ProductService : IProductService
     {
-        private static List<Product> Products = new()
+        private readonly ApplicationDbContext _context;
+
+        public ProductService(ApplicationDbContext context)
         {
-            new Product { Id = 1, Name = "Apple" },
-            new Product { Id = 2, Name = "Orange" },
-        };
-        public List<Product> GetProducts() => Products;
-        public void Add(Product product) => Products.Add(product);
+            _context = context;
+        }
+
+        public async Task<List<Product>> GetProducts()
+        {
+            return await _context.Products.ToListAsync();
+        }
+
+        public async Task<Product> AddProduct(String name)
+        {
+            var product = new Product { Name = name };
+            _context.Products.Add(product);
+            await _context.SaveChangesAsync();
+            return product;
+        }
     }
 }
